@@ -1,0 +1,91 @@
+# === 操作系统 ===
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# === 编辑器 / IDE ===
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+.zed/
+
+# === Node / 前端 ===
+node_modules/
+dist/
+dist-ssr/
+*.local
+.vite/
+
+# === Tauri / Rust ===
+src-tauri/target/
+src-tauri/gen/
+src-tauri/Cargo.lock
+*.app
+*.dmg
+*.exe
+*.msi
+
+# === Python sidecar ===
+sidecar/__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+sidecar/venv/
+sidecar/.venv/
+venv/
+.venv/
+env/
+ENV/
+*.egg-info/
+.eggs/
+sidecar/build/
+sidecar/dist/
+*.spec
+
+# === 模型文件（体积大，不入仓库） ===
+models/
+*.pb
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+# 但允许小尺寸测试模型
+!models/.gitkeep
+
+# === 数据 / 缓存 ===
+*.db
+*.sqlite
+*.sqlite3
+*.lance
+data/
+cache/
+.cache/
+library.db
+
+# === 配置（含密钥，勿提交） ===
+config.json
+.env
+.env.local
+.env.*.local
+*.secret
+
+# === 日志 ===
+logs/
+*.log
+
+# === 打包产物 ===
+release/
+releases/
+release-builds/
+
+# === 临时 ===
+tmp/
+temp/
+*.tmp
