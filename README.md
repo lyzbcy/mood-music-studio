@@ -65,26 +65,39 @@ Tauri 2（Rust 主进程）+ Python sidecar（FastAPI + Essentia + CLAP）+ WebV
 
 ---
 
-## 🚀 快速开始（待环境就绪）
+## 🚀 快速开始
 
+### 一键启动（推荐）
+
+**Finder 双击**：项目根目录的 `启动.command` 文件。
+
+**或终端运行**：
 ```bash
-# 前置：Node.js 20+, Rust, Python 3.11+
-
-# 克隆
-git clone https://github.com/<user>/mood-music-studio.git
-cd mood-music-studio
-
-# 前端依赖
-npm install
-
-# Python sidecar 依赖
-cd sidecar && pip install -r requirements.txt && cd ..
-
-# 开发模式（同时起 Tauri + sidecar）
-npm run tauri dev
+cd ~/Documents/共享/创业/mood-music-studio
+./start.sh           # 前台运行（Ctrl+C 退出）
+./start.sh --bg      # 后台运行（关终端不影响）
+./start.sh --check   # 仅检查环境
+./stop.sh            # 停止所有进程
 ```
 
-> ⚠️ 详细开发指南在编码阶段补充。
+脚本会自动：检查环境 → 启动 Python sidecar（端口 45170）→ 启动 Tauri 桌面窗口。首次启动需编译 10-30 秒，之后秒开。
+
+### 首次使用环境（仅一次）
+
+本机已装好（免 sudo）。新机器上需先装：
+```bash
+# Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# Node（用 npmmirror 镜像）
+curl -L https://npmmirror.com/mirrors/node/v20.17.0/node-v20.17.0-darwin-arm64.tar.gz -o /tmp/n.tar.gz
+mkdir -p ~/.local/node && tar -xzf /tmp/n.tar.gz -C ~/.local/node --strip-components=1
+
+# 项目依赖
+cd ~/Documents/共享/创业/mood-music-studio
+cd ui && npm install && cd ..
+cd sidecar && python3 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt && cd ..
+cargo install tauri-cli --version "^2.0"
+```
 
 ---
 
