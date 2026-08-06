@@ -12,18 +12,23 @@
 
 ---
 
-## 1. 当前状态 🟡
+## 1. 当前状态 🟢 工程地基已通
 
 | 维度 | 状态 | 说明 |
 |---|---|---|
 | 调研 | ✅ 完成 | 三份调研报告已归档至 `docs/research/`，技术选型已定 |
 | 架构设计 | ✅ 完成 | 见 `docs/architecture.md`，技术栈已定 |
 | MVP 规划 | ✅ 完成 | 见 `docs/roadmap.md`，三路并行最小可用 |
-| 项目骨架 | ✅ 完成 | 目录结构、文档体系已建立 |
-| 代码 | ⬜ 未开始 | 待环境就绪后进入编码 |
-| 环境 | ⬜ 未就绪 | 缺 Node.js / Rust / gh CLI / Homebrew，详见 §8 |
+| 文档体系 | ✅ 完成 | 入口/架构/路线/ADR/调研/模块全覆盖 |
+| 初心锚点 | ✅ 完成 | `初心与使命.md`（长任务心跳用） |
+| 开发环境 | ✅ 完成 | Rust 1.97 + Node 20.17（tarball 免 sudo）+ Tauri CLI 2.11 |
+| Tauri 工程骨架 | ✅ 完成 | debug+release 双编译零 warning |
+| Python sidecar | ✅ 完成 | FastAPI + /health + DNS rebinding 防护，5/5 测试通过 |
+| **三端通信链路** | ✅ **打通** | `cargo tauri dev` 实测：前端→sidecar /health 周期性 200 OK |
+| Phase 1 三路薄切片 | ⬜ 待开始 | 见 `docs/roadmap.md` |
+| GitHub 远程 | ⬜ 待创建 | SSH 已认证（lyzbcy），待建 lyzbcy/mood-music-studio |
 
-**下一步动作**：安装开发环境 → 搭建 Tauri + Python sidecar 工程骨架 → 跑通三路 MVP 各一层薄切片。详见 `docs/roadmap.md`。
+**下一步动作**：创建 GitHub 仓库并推送 → 进入 Phase 1（线 A：Essentia 打标 / 线 B：CLAP 检索 / 线 C：MCP API）。
 
 ---
 
@@ -191,42 +196,39 @@
 
 ## 8. 环境信息
 
-### 8.1 开发机当前状态（2026-08-06 探测）
+### 8.1 开发机当前状态（2026-08-06 实际安装）
 | 工具 | 状态 | 说明 |
 |---|---|---|
-| Python | ✅ 3.9.6 | 建议升级到 3.11+（essentia/CLAP 生态更稳） |
+| Python | ✅ 3.9.6 | 系统自带，保持 3.9（用户决定不升级） |
 | git | ✅ 2.50.1 | 已配置 泽恩 / lyzbcy@gmail.com |
-| Node.js | ❌ 未安装 | Tauri 前端需要，待装 |
-| Rust | ❌ 未安装 | Tauri 主进程需要，待装 |
-| Homebrew | ❌ 未安装 | macOS 包管理，待装 |
-| gh CLI | ❌ 未安装 | 创建 GitHub 仓库/推送需要，待装 |
+| Node.js | ✅ 20.17.0 | tarball 方式装到 `~/.local/node`（免 sudo，不用 brew） |
+| Rust | ✅ 1.97.1 | rustup 装到 `~/.cargo`（写入 ~/.profile） |
+| Tauri CLI | ✅ 2.11.4 | `cargo-tauri`，用 `cargo tauri <cmd>` |
+| Homebrew | ❌ 未装 | 需要 sudo，暂未装；Node/Rust 已绕开它 |
+| gh CLI | ❌ 未装 | GitHub HTTPS 不稳；用 SSH 推送 |
 
-### 8.2 待安装清单
+**PATH 配置**（新 shell 需 source）：
 ```bash
-# 1. Homebrew（macOS 包管理基础）
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+export PATH="$HOME/.local/node/bin:$HOME/.cargo/bin:$PATH"
+```
 
-# 2. Node.js（Tauri 前端构建）
-brew install node
+### 8.2 一键启动开发环境
+```bash
+cd ~/Documents/共享/创业/mood-music-studio
 
-# 3. Rust（Tauri 主进程）
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+# 1. 启 Python sidecar（终端 A）
+cd sidecar && source .venv/bin/activate
+MOOD_PORT=45170 MOOD_LOG=DEBUG python -m app
 
-# 4. gh CLI（GitHub 操作）
-brew install gh
-gh auth login
-
-# 5. Tauri CLI（Rust 安装后）
-cargo install tauri-cli --version "^2.0"
-
-# 6. Python 依赖（sidecar）
-pip install essentia librosa fastapi uvicorn pylance clap-transformers
+# 2. 启 Tauri（终端 B，会自动起 vite）
+export PATH="$HOME/.local/node/bin:$HOME/.cargo/bin:$PATH"
+cargo tauri dev
 ```
 
 ### 8.3 项目路径
 ```
 本地：~/Documents/共享/创业/mood-music-studio/
-远程：待创建 GitHub public 仓库 mood-music-studio（gh 就绪后）
+远程：git@github.com:lyzbcy/mood-music-studio.git（待创建）
 ```
 
 ---
@@ -263,12 +265,11 @@ Essentia 是 AGPL-3.0，有传染性。**必须**通过 sidecar 进程隔离调�
 
 | # | 问题 | 当前处理 | 何时决定 |
 |---|---|---|---|
-| 1 | 项目名 `mood-music-studio` 是否满意 | 暂用此名 | 首次推送前 |
-| 2 | 开发环境安装授权 | 暂不安装，先出文档 | 本文档就绪后 |
-| 3 | Python 版本是否升级到 3.11+ | 建议，待确认 | 编码开始前 |
-| 4 | beets 作为库管底座 vs 自研 | MVP 先自研轻量，beets 作为评估备选 | MVP-0 后 |
-| 5 | License 选择（考虑到 AGPL 隔离） | 倾向 MIT，待定 | 首次推送前 |
-| 6 | 前端框架 React vs Vue vs Svelte | 暂定 React（生态最大） | GUI 编码前 |
+| 1 | ~~项目名~~ | ✅ 定为 `mood-music-studio`（用户认可） | - |
+| 2 | ~~Python 升级~~ | ✅ 保持 3.9.6（用户决定） | - |
+| 3 | beets 作为库管底座 vs 自研 | MVP 先自研轻量，beets 作为评估备选 | MVP-0 后 |
+| 4 | License 选择（考虑到 AGPL 隔离） | 暂用 MIT（LICENSE 已写） | 商用前 |
+| 5 | 前端框架 React vs Vue vs Svelte | 已选 React（已搭建） | - |
 
 ---
 
@@ -277,3 +278,4 @@ Essentia 是 AGPL-3.0，有传染性。**必须**通过 sidecar 进程隔离调�
 | 日期 | 变更 | 作者 |
 |---|---|---|
 | 2026-08-06 | 项目初始化，调研完成，架构/路线图/文档体系建立 | ZCode（泽恩） |
+| 2026-08-06 | 极限模式：装环境（Rust/Node 免 sudo）+ Tauri+Python sidecar 骨架 + 三端通信链路打通 | ZCode（泽恩） |

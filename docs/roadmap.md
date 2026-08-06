@@ -21,10 +21,11 @@
 | 架构设计 | ✅ | `docs/architecture.md` |
 | 文档体系建立 | ✅ | `docs/` 全套 |
 | 项目骨架（git + 目录） | ✅ | 本仓库 |
-| **开发环境就绪** | ⬜ | Node/Rust/gh 安装 |
-| **GitHub 远程仓库** | ⬜ | gh 就绪后创建 |
-| **Tauri 工程初始化** | ⬜ | `npm create tauri-app` |
-| **Python sidecar 工程初始化** | ⬜ | FastAPI 骨架 + /health |
+| **开发环境就绪** | ✅ | Rust 1.97 / Node 20.17（tarball 免 sudo） |
+| **Tauri 工程骨架** | ✅ | debug+release 双编译零 warning |
+| **Python sidecar 骨架** | ✅ | FastAPI + /health + DNS rebinding 防护，5/5 测试 |
+| **三端通信链路打通** | ✅ | cargo tauri dev 验证：前端→sidecar health 周期性 OK |
+| **GitHub 远程仓库** | ⬜ | 待创建 lyzbcy/mood-music-studio |
 
 ---
 

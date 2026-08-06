@@ -1,0 +1,13 @@
+# crates.io 国内镜像（rsproxy，清华维护），加速 Tauri 首次编译
+# 首次编译 Tauri 会下载数百个 crate，不走镜像会很慢
+[source.crates-io]
+replace-with = "rsproxy-sparse"
+
+[source.rsproxy-sparse]
+registry = "sparse+https://rsproxy.cn/index/"
+
+[registries.rsproxy]
+index = "sparse+https://rsproxy.cn/index/"
+
+[net]
+git-fetch-with-cli = true

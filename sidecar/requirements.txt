@@ -1,0 +1,23 @@
+# Mood Music Studio — Python sidecar 依赖
+# Python 3.9+ 兼容
+
+# === Web 框架（MVP-0 核心） ===
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+
+# === 测试 ===
+pytest==7.4.3
+httpx==0.25.1          # TestClient 依赖
+
+# === 元数据/音频（MVP 线 A 起逐步引入，先注释掉避免重型依赖拖慢首装）
+# mutagen==1.47.0       # 读 ID3/Vorbis 标签，轻量纯 Python
+# === 打标引擎（线 A，体积大，按需启用） ===
+# essentia==2.1b6.dev1034
+# librosa==0.10.1
+# numpy==1.26.2
+# === 语义检索（线 B） ===
+# transformers==4.36.2
+# torch==2.1.2
+# lancedb==0.3.6
+# === MCP（线 C） ===
+# mcp==0.4.0

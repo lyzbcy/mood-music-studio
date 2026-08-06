@@ -85,6 +85,10 @@ release/
 releases/
 release-builds/
 
+# === TypeScript 构建产物 ===
+*.tsbuildinfo
+ui/dist/
+
 # === 临时 ===
 tmp/
 temp/
